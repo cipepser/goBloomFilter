@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/big"
 	"strconv"
+	"sync"
 )
 
 const (
@@ -58,9 +59,18 @@ func Add(bf *BloomFilter, element string)  {
 	i64_hashA, _ := strconv.ParseInt(hashA, 16, 64)
 	i64_hashB, _ := strconv.ParseInt(hashB, 16, 64)
 	
-	// TODO: goroutineにする
+	idx := make(chan int64, k)
+	wait := new(sync.WaitGroup)
 	for i := 0; i < k; i++ {
-		bf.BloomFilter[DoubleHashing(i64_hashA, i64_hashB, i)] = true
+		wait.Add(1)
+		
+		go func(j int) {
+			idx <- DoubleHashing(i64_hashA, i64_hashB, j)
+			wait.Done()
+		} (i)
+		
+		bf.BloomFilter[<- idx] = true
+		wait.Wait()
 	}
 }
 
@@ -100,4 +110,5 @@ func main() {
 	
 	// 要素が含まれているか検証
 	fmt.Println(Exists(&bf, "2"))
+	// fmt.Println(bf)
 }
