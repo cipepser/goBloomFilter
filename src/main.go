@@ -88,13 +88,29 @@ func Exists(bf *BloomFilter, element string) (exists bool) {
 	
 	// TODO: goroutineにする
 	exists = true
+	// for i := 0; i < k; i++ {
+	// 	if bf.BloomFilter[DoubleHashing(i64_hashA, i64_hashB, i)] == false {
+	// 		exists = false
+	// 		break
+	// 	}
+	// }
+
+	idx := make(chan int64, k)
+	wait := new(sync.WaitGroup)
 	for i := 0; i < k; i++ {
-		if bf.BloomFilter[DoubleHashing(i64_hashA, i64_hashB, i)] == false {
+		wait.Add(1)
+		
+		go func(j int) {
+			idx <- DoubleHashing(i64_hashA, i64_hashB, j)
+			wait.Done()
+		} (i)
+		
+		if bf.BloomFilter[<- idx] == false {
 			exists = false
 			break
 		}
+		wait.Wait()
 	}
-	
 	return
 }
 
@@ -110,5 +126,4 @@ func main() {
 	
 	// 要素が含まれているか検証
 	fmt.Println(Exists(&bf, "2"))
-	// fmt.Println(bf)
 }
