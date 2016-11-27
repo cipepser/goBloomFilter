@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"crypto/md5"
 	"encoding/hex"
+	"math"
 	"math/big"
 	"strconv"
 )
@@ -13,8 +14,10 @@ const (
 )
 
 var (
-	k int = 10 // ハッシュ関数の数
-	// TODO: 妥当なkを決める
+	// k int = 10 // ハッシュ関数の数
+
+	n = 70 // 挿入する要素の数
+	k int = int(math.Log(2) * float64(size) / float64(n)) // ハッシュ関数の数
 )
 
 type BloomFilter struct {
