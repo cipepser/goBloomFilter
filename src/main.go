@@ -86,15 +86,7 @@ func Exists(bf *BloomFilter, element string) (exists bool) {
 	i64_hashA, _ := strconv.ParseInt(hashA, 16, 64)
 	i64_hashB, _ := strconv.ParseInt(hashB, 16, 64)
 	
-	// TODO: goroutineにする
 	exists = true
-	// for i := 0; i < k; i++ {
-	// 	if bf.BloomFilter[DoubleHashing(i64_hashA, i64_hashB, i)] == false {
-	// 		exists = false
-	// 		break
-	// 	}
-	// }
-
 	idx := make(chan int64, k)
 	wait := new(sync.WaitGroup)
 	for i := 0; i < k; i++ {
