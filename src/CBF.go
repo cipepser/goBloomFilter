@@ -112,6 +112,9 @@ func main() {
 	Add(&bf, "4")
 	Add(&bf, "5")
 
+	// 要素が含まれているか検証
+	fmt.Println(Exists(&bf, "2"))
+
 	// 要素の削除
 	Delete(&bf, "2")
 
