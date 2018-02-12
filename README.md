@@ -1,9 +1,9 @@
 # Go言語でブルームフィルタを実装する
 
-* main.go
-    Bloom filter
-* CBF.go
-    counting Bloom filter
+* bf
+  - classic Bloom filter
+* cbf
+  - counting Bloom filter
 
 
 ## 参考
