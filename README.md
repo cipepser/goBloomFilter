@@ -1,4 +1,8 @@
-# Go言語でブルームフィルタを実装する
+# goBloomFilter
+
+[![Build Status](https://travis-ci.org/cipepser/goBloomFilter.svg?branch=master)](https://travis-ci.org/cipepser/goBloomFilter)
+
+いろいろなBloomFilterのGo実装
 
 * bf
   - classic Bloom filter
