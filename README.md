@@ -7,7 +7,7 @@
 
 * bf
   - classic Bloom filter
-* cbf
+* cbf(リファクタリング中)
   - counting Bloom filter
 
 
