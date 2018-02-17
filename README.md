@@ -1,6 +1,7 @@
 # goBloomFilter
 
 [![Build Status](https://travis-ci.org/cipepser/goBloomFilter.svg?branch=master)](https://travis-ci.org/cipepser/goBloomFilter)
+[![Coverage Status](https://coveralls.io/repos/github/cipepser/goBloomFilter/badge.svg?branch=master)](https://coveralls.io/github/cipepser/goBloomFilter?branch=master)
 
 いろいろなBloomFilterのGo実装
 
