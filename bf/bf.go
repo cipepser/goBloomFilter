@@ -3,7 +3,7 @@ package bf
 import (
 	"strconv"
 
-	"../util"
+	"github.com/cipepser/goBloomFilter/util"
 )
 
 var (
