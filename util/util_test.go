@@ -14,5 +14,14 @@ func TestCalcMD5Hash(t *testing.T) {
 }
 
 func TestDoubleHashing(t *testing.T) {
+	var hashA, hashB int64 = 13, 10
+	n := 3
+	length := 7
 
+	var expect int64 = 1
+	actual := DoubleHashing(hashA, hashB, n, length)
+
+	if actual != expect {
+		t.Errorf("\nexpect: %v\nactual: %v\n", expect, actual)
+	}
 }
