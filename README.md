@@ -5,11 +5,20 @@
 
 いろいろなBloomFilterのGo実装
 
-* bf
-  - classic Bloom filter
-* cbf(リファクタリング中)
-  - counting Bloom filter
+## bf(general Bloom filter)
 
+Supports following method:  
+* Add
+* Exists
+
+bf don't support Remove.
+
+## cbf(counting Bloom filter)
+
+Supports following method:  
+* Add
+* Exists
+* Remove
 
 ## 参考
 * [C++でブルームフィルタを実装する方法](http://postd.cc/how-to-write-a-bloom-filter-cpp/)
