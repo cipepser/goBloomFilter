@@ -10,21 +10,21 @@ type cell struct {
 	count, keySum, valueSum int
 }
 
-// InvertibleBloomLookupTables is a slice of cell.
-type InvertibleBloomLookupTables []cell
+// IBLT is a slice of cell.
+type IBLT []cell
 
 var (
 	k = 3
 )
 
-// NewInvertibleBloomLookupTables constructs InvertibleBloomLookupTables with table size.
-func NewInvertibleBloomLookupTables(size int) InvertibleBloomLookupTables {
+// NewIBLT constructs InvertibleBloomLookupTables with table size.
+func NewIBLT(size int) IBLT {
 	return make([]cell, size)
 }
 
 // Insert inserts a key-value pair into InvertibleBloomLookupTables.
 // This operation always succeeds.
-func (iblt InvertibleBloomLookupTables) Insert(key, value int) {
+func (iblt IBLT) Insert(key, value int) {
 	hash := util.CalcMD5Hash(strconv.Itoa(key))
 	hashA := hash[:int(len(hash)/2)]
 	hashB := hash[int(len(hash)/2):]
@@ -39,14 +39,34 @@ func (iblt InvertibleBloomLookupTables) Insert(key, value int) {
 	}
 }
 
-// func (iblt InvertibleBloomLookupTables) LookUp() {
-//
-// }
-//
+// Get checks wether the key exists in IBLT or not.
+func (iblt IBLT) Get(key int) (bool, int) {
+	hash := util.CalcMD5Hash(strconv.Itoa(key))
+	hashA := hash[:int(len(hash)/2)]
+	hashB := hash[int(len(hash)/2):]
+
+	i64HashA, _ := strconv.ParseInt(hashA, 16, 64)
+	i64HashB, _ := strconv.ParseInt(hashB, 16, 64)
+
+	for i := 0; i < k; i++ {
+		idx := util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))
+		if iblt[idx].count == 0 {
+			return false, 0
+		}
+		if iblt[idx].count == 1 {
+			if iblt[idx].keySum == key {
+				return true, iblt[idx].valueSum
+			}
+			return false, 0
+		}
+	}
+	return false, 0
+}
+
 // func (iblt InvertibleBloomLookupTables) Delete() {
 //
 // }
 //
-// func (iblt InvertibleBloomLookupTables) ListUp() {
+// func (iblt InvertibleBloomLookupTables) ListEntries() {
 //
 // }
