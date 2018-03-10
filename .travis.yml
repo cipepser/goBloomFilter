@@ -5,6 +5,7 @@ go:
 before_install:
   - go get github.com/cipepser/goBloomFilter/util
   - go get github.com/mattn/goveralls
+  - go get github.com/jinzhu/copier
 script:
   - go test -v ./...
   - $GOPATH/bin/goveralls -service=travis-ci
