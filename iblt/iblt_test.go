@@ -60,3 +60,34 @@ func TestIBLT_InsertndGet(t *testing.T) {
 		})
 	}
 }
+
+func TestIBLT_Delete(t *testing.T) {
+	type args struct {
+		key   int
+		value int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			"Delete {2, 5}",
+			args{2, 5},
+			false,
+		},
+	}
+	iblt := NewIBLT(10)
+	// prepare for tests: Insert {2, 5} and {3, 8}
+	iblt.Insert(2, 5)
+	iblt.Insert(3, 8)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			iblt.Delete(tt.args.key, tt.args.value)
+			got, _ := iblt.Get(tt.args.key)
+			if got != tt.want {
+				t.Errorf("Get(1) = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
