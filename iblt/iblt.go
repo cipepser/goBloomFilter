@@ -62,11 +62,3 @@ func (iblt IBLT) Get(key int) (bool, int) {
 	}
 	return false, 0
 }
-
-// func (iblt InvertibleBloomLookupTables) Delete() {
-//
-// }
-//
-// func (iblt InvertibleBloomLookupTables) ListEntries() {
-//
-// }
