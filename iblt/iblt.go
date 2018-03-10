@@ -13,6 +13,11 @@ type cell struct {
 // IBLT is a slice of cell.
 type IBLT []cell
 
+// Pair represents key-value pair.
+type Pair struct {
+	key, value int
+}
+
 var (
 	k = 3
 )
@@ -78,4 +83,26 @@ func (iblt IBLT) Delete(key, value int) {
 		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].keySum -= key
 		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].valueSum -= value
 	}
+}
+
+// ListEntries lists up the pairs contained in IBLT.
+func (iblt IBLT) ListEntries() []Pair {
+	var pairs []Pair
+	newIblt := NewIBLT(len(iblt))
+	copy(newIblt, iblt)
+
+LABEL:
+	for i := 0; i < len(newIblt); i++ {
+		if newIblt[i].count == 1 {
+			pairs = append(pairs,
+				Pair{
+					key:   newIblt[i].keySum,
+					value: newIblt[i].valueSum,
+				},
+			)
+			newIblt.Delete(newIblt[i].keySum, newIblt[i].valueSum)
+			goto LABEL
+		}
+	}
+	return pairs
 }
