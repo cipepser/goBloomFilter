@@ -34,8 +34,8 @@ func (iblt IBLT) Insert(key, value int) {
 
 	for i := 0; i < k; i++ {
 		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].count++
-		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].keySum ^= key
-		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].valueSum ^= value
+		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].keySum += key
+		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].valueSum += value
 	}
 }
 
@@ -61,4 +61,21 @@ func (iblt IBLT) Get(key int) (bool, int) {
 		}
 	}
 	return false, 0
+}
+
+// Delete deletes a key-value pair from InvertibleBloomLookupTables.
+// This operation always succeeds.
+func (iblt IBLT) Delete(key, value int) {
+	hash := util.CalcMD5Hash(strconv.Itoa(key))
+	hashA := hash[:int(len(hash)/2)]
+	hashB := hash[int(len(hash)/2):]
+
+	i64HashA, _ := strconv.ParseInt(hashA, 16, 64)
+	i64HashB, _ := strconv.ParseInt(hashB, 16, 64)
+
+	for i := 0; i < k; i++ {
+		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].count--
+		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].keySum -= key
+		iblt[util.DoubleHashing(i64HashA, i64HashB, i, len(iblt))].valueSum -= value
+	}
 }
