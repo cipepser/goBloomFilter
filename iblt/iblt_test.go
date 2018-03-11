@@ -91,3 +91,28 @@ func TestIBLT_Delete(t *testing.T) {
 		})
 	}
 }
+
+func TestIBLT_ListEntries(t *testing.T) {
+	tests := []struct {
+		name string
+		want []Pair
+	}{
+		{
+			"ListEntries {2, 20} and {3, 30}",
+			[]Pair{
+				{2, 20},
+				{3, 30},
+			},
+		},
+	}
+	iblt := NewIBLT(10)
+	iblt.Insert(2, 20)
+	iblt.Insert(3, 30)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := iblt.ListEntries(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("IBLT.ListEntries() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
